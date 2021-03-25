@@ -97,8 +97,8 @@ const UserLog = ({navigation}) => {
         <Text>Amount</Text>
         <Text>Date</Text>
       </View>
-      {filteredExpenseList.length > 0
-        ? filteredExpenseList.map((item, index) => (
+      {expenseList.length > 0
+        ? expenseList.map((item, index) => (
             <View style={styles.list} key={index}>
               <Text>{item.expenseType}</Text>
               <Text>{item.amount}</Text>
