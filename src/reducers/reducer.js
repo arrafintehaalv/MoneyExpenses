@@ -1,14 +1,17 @@
-import {ADD_EXPENSE} from '../constants';
+import {ADD_EXPENSE, EXPENSE_LIST} from '../constants';
+import {initialState} from '../initialState/initialState';
 
-const initialState = {
-  count: 0,
-};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_EXPENSE:
       return {
         ...state,
-        count: action.payload,
+        count: state.count + action.payload,
+      };
+    case EXPENSE_LIST:
+      return {
+        ...state,
+        list: [...state.list, action.payload],
       };
     default:
       return state;

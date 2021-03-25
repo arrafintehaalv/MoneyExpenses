@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {useSelector, useDispatch} from 'react-redux';
-import { changeCount } from '../actions/action';
+import {changeCount, changeList} from '../actions/action';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,9 +45,17 @@ function AddExpense({navigation}) {
   const [amount, setAmount] = useState(null);
   const [date, setDate] = useState(new Date());
   const [isValidated, setValidated] = useState(false);
+
+  const listObject = () => ({
+    expenseType,
+    amount,
+    date: date.toString().substr(0, 15),
+  });
+
   const onPressAddExpense = () => {
     navigation.navigate('Home');
-    dispatch(changeCount(amount));
+    dispatch(changeCount(Number(amount)));
+    dispatch(changeList(listObject()));
   };
   useEffect(() => {
     console.log(date);
