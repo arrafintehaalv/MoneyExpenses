@@ -30,30 +30,24 @@ const UserLog = ({navigation}) => {
   useEffect(() => {
     console.log('filteredExpenseList', filteredExpenseList);
     if (expenseType !== '') {
-      setFilteredExpenseList(prevItem =>
-        prevItem.map((item, index) => {
-          if (item.expenseType.includes(expenseType)) {
-            return item;
-          }
-        }),
+      setFilteredExpenseList(
+        expenseList
+          .filter(item => item.expenseType.includes(expenseType))
+          .map(({expenseType, amount, date}) => ({expenseType, amount, date})),
       );
     }
     if (week !== '') {
-      setFilteredExpenseList(prevItem =>
-        prevItem.map((item, index) => {
-          if (item.date.substr(0, 3).includes(week)) {
-            return item;
-          }
-        }),
+      setFilteredExpenseList(
+        expenseList
+          .filter(item => item.date.substr(0, 3).includes(week))
+          .map(({expenseType, amount, date}) => ({expenseType, amount, date})),
       );
     }
     if (month !== '') {
-      setFilteredExpenseList(prevItem =>
-        prevItem.map((item, index) => {
-          if (item.date.substr(4, 7).includes(month)) {
-            return item;
-          }
-        }),
+      setFilteredExpenseList(
+        expenseList
+          .filter(item => item.date.substr(4, 7).includes(month))
+          .map(({expenseType, amount, date}) => ({expenseType, amount, date})),
       );
     }
   }, [expenseType, week, month, expenseList]);
@@ -97,8 +91,8 @@ const UserLog = ({navigation}) => {
         <Text>Amount</Text>
         <Text>Date</Text>
       </View>
-      {expenseList.length > 0
-        ? expenseList.map((item, index) => (
+      {filteredExpenseList.length > 0
+        ? filteredExpenseList.map((item, index) => (
             <View style={styles.list} key={index}>
               <Text>{item.expenseType}</Text>
               <Text>{item.amount}</Text>
