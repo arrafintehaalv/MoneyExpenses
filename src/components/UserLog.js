@@ -28,6 +28,7 @@ const UserLog = ({navigation}) => {
   const [month, setMonth] = useState('');
   console.log('expenseList', expenseList);
   useEffect(() => {
+    console.log('filteredExpenseList', filteredExpenseList);
     if (expenseType !== '') {
       setFilteredExpenseList(prevItem =>
         prevItem.map((item, index) => {
@@ -97,7 +98,7 @@ const UserLog = ({navigation}) => {
         <Text>Date</Text>
       </View>
       {filteredExpenseList.length > 0
-        ? expenseList.map((item, index) => (
+        ? filteredExpenseList.map((item, index) => (
             <View style={styles.list} key={index}>
               <Text>{item.expenseType}</Text>
               <Text>{item.amount}</Text>
