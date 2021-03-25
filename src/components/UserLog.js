@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
 import {useSelector} from 'react-redux';
 const styles = StyleSheet.create({
@@ -21,10 +21,41 @@ const styles = StyleSheet.create({
 });
 const UserLog = ({navigation}) => {
   const expenseList = useSelector(state => state.count.list);
+  const [filteredExpenseList, setFilteredExpenseList] = useState(expenseList);
+  console.log('filteredExpenseList-------', filteredExpenseList);
   const [expenseType, setExpenseType] = useState('');
   const [week, setWeek] = useState('');
   const [month, setMonth] = useState('');
-  console.log('exPenseList', expenseList);
+  console.log('expenseList', expenseList);
+  useEffect(() => {
+    if (expenseType !== '') {
+      setFilteredExpenseList(prevItem =>
+        prevItem.map((item, index) => {
+          if (item.expenseType.includes(expenseType)) {
+            return item;
+          }
+        }),
+      );
+    }
+    if (week !== '') {
+      setFilteredExpenseList(prevItem =>
+        prevItem.map((item, index) => {
+          if (item.date.substr(0, 3).includes(week)) {
+            return item;
+          }
+        }),
+      );
+    }
+    if (month !== '') {
+      setFilteredExpenseList(prevItem =>
+        prevItem.map((item, index) => {
+          if (item.date.substr(4, 7).includes(month)) {
+            return item;
+          }
+        }),
+      );
+    }
+  }, [expenseType, week, month, expenseList]);
   return (
     <View style={styles.container}>
       <View style={styles.logScreenHeader}>
@@ -36,7 +67,7 @@ const UserLog = ({navigation}) => {
           style={styles.input}
           onChangeText={setExpenseType}
           value={expenseType}
-          placeholder="Enter Expense Type"
+          placeholder="Enter Expense Type (i.e. Home)"
           keyboardType="default"
         />
       </View>
@@ -46,7 +77,7 @@ const UserLog = ({navigation}) => {
           style={styles.input}
           onChangeText={setWeek}
           value={week}
-          placeholder="Enter Expense Type"
+          placeholder="Enter Week (i.e. Sun)"
           keyboardType="default"
         />
       </View>
@@ -56,7 +87,7 @@ const UserLog = ({navigation}) => {
           style={styles.input}
           onChangeText={setMonth}
           value={month}
-          placeholder="Enter Expense Type"
+          placeholder="Enter Month (i.e. Jan)"
           keyboardType="default"
         />
       </View>
@@ -65,9 +96,9 @@ const UserLog = ({navigation}) => {
         <Text>Amount</Text>
         <Text>Date</Text>
       </View>
-      {expenseList.length > 0
-        ? expenseList.map(item => (
-            <View style={styles.list}>
+      {filteredExpenseList.length > 0
+        ? expenseList.map((item, index) => (
+            <View style={styles.list} key={index}>
               <Text>{item.expenseType}</Text>
               <Text>{item.amount}</Text>
               <Text>{item.date}</Text>
