@@ -88,10 +88,20 @@ const UserLog = ({navigation}) => {
       </View>
       <View style={styles.list}>
         <Text>Expense Type</Text>
-        <Text>Amount</Text>
+        <View style={{paddingRight: '30%'}}>
+          <Text>Amount</Text>
+        </View>
         <Text>Date</Text>
       </View>
-      {filteredExpenseList.length > 0
+      {!week && !month && !expenseType
+        ? expenseList.map((item, index) => (
+            <View style={styles.list} key={index}>
+              <Text>{item.expenseType}</Text>
+              <Text>{item.amount}</Text>
+              <Text>{item.date}</Text>
+            </View>
+          ))
+        : filteredExpenseList.length > 0
         ? filteredExpenseList.map((item, index) => (
             <View style={styles.list} key={index}>
               <Text>{item.expenseType}</Text>
